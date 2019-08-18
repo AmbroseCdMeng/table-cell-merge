@@ -2,6 +2,7 @@
  * 表格合并列单元格，colIdx要合并的列序号，从0开始
  * @param tableid 表ID，例如#Table_Center
  * @param colIdx  列位置，从0开始
+ * 如mergeSingleCol('#table', 2) 表示自动合并 table 中第 2 列中所有内容相同的相邻单元格
  */
 function mergeSingleCol(tableid, colIdx) {
     var that;
@@ -37,6 +38,7 @@ function mergeSingleCol(tableid, colIdx) {
  * @param colIdxstart 开始列位置 从 0 开始 含自身     2019年8月17日13:30:46 扩展一个参数
  *  0  1  2  3  4  5        colIdx = 4  colIdxstart = 2
  *  0  1  → 2  3  4 ← 5
+ *  如mergeMultiCol('#table', 4, 2) 表示合并 table 第2 - 4列内容相同的单元格（单元格内容关联，与 单独合并 2，3，4 列不同）
  */
 function mergeMultiCol(tableid, colIdx, colIdxstart) {
     //未指定开始列时默认第0列
@@ -92,14 +94,15 @@ function mergeMultiCol(tableid, colIdx, colIdxstart) {
 
 /* ***** 跨列合并某单元格 *****
  * 跨列合并(如果结束行传0代表合并所有行)
- * @param tableid 表ID，例如#Table_Center
- * @param rowIdx  起始行
- * @param length  需合并行数
+ * @param tableid 表ID，例如#table
+ * @param colId  起始列
+ * @param length  需合跨行数
+ * 如mergeRows('#table', 3, 2) 表示合并第 3 - 4 列同一行内容相同的单元格。
  */
 function mergeRows(tableid, rowIdx, length) {
     var that;
     $(tableid + ' tr').each(function (row) {
-        $('td:gt(' + rowIdx + '):lt(' + length + ')', this).filter(':visible').each(function (col) {
+        $('td:gt(' + colId + '):lt(' + length + ')', this).filter(':visible').each(function (col) {
             if (that != null && $(this).html() == $(that).html()) {
                 colspan = $(that).attr("colSpan");
                 if (colspan == undefined) {
