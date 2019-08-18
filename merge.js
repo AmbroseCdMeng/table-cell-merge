@@ -38,7 +38,7 @@ function mergeSingleCol(tableid, colIdx) {
  * 表格合并列单元格，colIdx：要合并的前 n 列
  * @param tableid 表ID，例如#Table_Center
  * @param colIdx  结束列位置 从 0 开始 含
- * @param colIdxstart 开始列位置 从 0 开始 含自身     2019年8月17日13:30:46 扩展一个参数
+ * @param colIdxstart 开始列位置 从 0 开始 含自身
  *  0  1  2  3  4  5        colIdx = 4  colIdxstart = 2
  *  0  1  → 2  3  4 ← 5
  */
