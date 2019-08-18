@@ -3,7 +3,7 @@
  * @param tableid 表ID，例如#Table_Center
  * @param colIdx  列位置，从0开始
  */
-function MergeCol(tableid, colIdx) {
+function mergeSingleCol(tableid, colIdx) {
     var that;
     $(tableid + ' tr').each(function (row) {
         /*取该行下的指定列单元格*/
@@ -38,7 +38,7 @@ function MergeCol(tableid, colIdx) {
  *  0  1  2  3  4  5        colIdx = 4  colIdxstart = 2
  *  0  1  → 2  3  4 ← 5
  */
-function servermergetable_rowspan(tableid, colIdx, colIdxstart) {
+function mergeMultiCol(tableid, colIdx, colIdxstart) {
     //未指定开始列时默认第0列
     colIdxstart = colIdxstart || 0;
     var that;
@@ -86,7 +86,7 @@ function servermergetable_rowspan(tableid, colIdx, colIdxstart) {
     /* 自调用 */
     if (colIdx > colIdxstart) {
         colIdx -= 1;
-        servermergetable_rowspan(tableid, colIdx, colIdxstart);
+        mergeMultiCol(tableid, colIdx, colIdxstart);
     }
 }
 
@@ -96,7 +96,7 @@ function servermergetable_rowspan(tableid, colIdx, colIdxstart) {
  * @param rowIdx  起始行
  * @param length  需合并行数
  */
-function MergeRow(tableid, rowIdx, length) {
+function mergeRows(tableid, rowIdx, length) {
     var that;
     $(tableid + ' tr').each(function (row) {
         $('td:gt(' + rowIdx + '):lt(' + length + ')', this).filter(':visible').each(function (col) {
