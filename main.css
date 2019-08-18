@@ -1,0 +1,49 @@
+body {
+    width: 99%;
+}
+
+h1 {
+    text-align: center;
+}
+
+table {
+    border-collapse: collapse;
+    border: 2px solid #000;
+}
+
+table tr th {
+    background-color: rgba(63, 153, 236, 0.411);
+    border: 2px solid #000;
+    min-width: 106px;
+    font-weight: bold;
+    text-align: center;
+}
+
+table td {
+    border: 1px solid #3d3a3a;
+    min-width: 106px;
+    text-align: center;
+}
+
+div {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+button {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+input {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+#colIndex {
+    width: 500px;
+}
+
+#column-start, #column-end {
+    width: 228px;
+}
