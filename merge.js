@@ -1,12 +1,8 @@
-/*
-摘要:頁面表格的行合併,列合併,導出Excel
-備註：實現方式或習慣有多種，現固定一種，不建議使用$.fn擴展
-*/
-
-/*表格合并列单元格，colIdx要合并的列序号，从0开始
-* @param tableid 表ID，例如#Table_Center
-* @param colIdx  列位置，从0开始
-*/
+/* ***** 合并某一列内容相同的单元格 *****
+ * 表格合并列单元格，colIdx要合并的列序号，从0开始
+ * @param tableid 表ID，例如#Table_Center
+ * @param colIdx  列位置，从0开始
+ */
 function MergeCol(tableid, colIdx) {
     var that;
     $(tableid + ' tr').each(function (row) {
@@ -34,13 +30,14 @@ function MergeCol(tableid, colIdx) {
     });
 }
 
-/* 表格合并列单元格，colIdx：要合并的前 n 列
-* @param tableid 表ID，例如#Table_Center
-* @param colIdx  结束列位置 从 0 开始 含
-* @param colIdxstart 开始列位置 从 0 开始 含自身     2019年8月17日13:30:46 扩展一个参数
-*  0  1  2  3  4  5        colIdx = 4  colIdxstart = 2
-*  0  1  → 2  3  4 ← 5
-*/
+/* ***** 合并某 n 列内容相同的单元格（单元格内容有关联） *****
+ * 表格合并列单元格，colIdx：要合并的前 n 列
+ * @param tableid 表ID，例如#Table_Center
+ * @param colIdx  结束列位置 从 0 开始 含
+ * @param colIdxstart 开始列位置 从 0 开始 含自身     2019年8月17日13:30:46 扩展一个参数
+ *  0  1  2  3  4  5        colIdx = 4  colIdxstart = 2
+ *  0  1  → 2  3  4 ← 5
+ */
 function servermergetable_rowspan(tableid, colIdx, colIdxstart) {
     //未指定开始列时默认第0列
     colIdxstart = colIdxstart || 0;
@@ -93,11 +90,12 @@ function servermergetable_rowspan(tableid, colIdx, colIdxstart) {
     }
 }
 
-/*跨列合併(如果结束行传0代表合并所有行)
-* @param tableid 表ID，例如#Table_Center
-* @param rowIdx  起始行
-* @param length  需合併行數
-*/
+/* ***** 跨列合并某单元格 *****
+ * 跨列合并(如果结束行传0代表合并所有行)
+ * @param tableid 表ID，例如#Table_Center
+ * @param rowIdx  起始行
+ * @param length  需合并行数
+ */
 function MergeRow(tableid, rowIdx, length) {
     var that;
     $(tableid + ' tr').each(function (row) {
