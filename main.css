@@ -44,6 +44,6 @@ input {
     width: 500px;
 }
 
-#column-start, #column-end {
+#column-start, #column-end, #rows-column-start, #rows-column-end {
     width: 228px;
 }
