@@ -1,0 +1,219 @@
+<link rel="stylesheet" href="./main.css">
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+<script src="./merge.js"></script>
+
+<body>
+    <h1>表格行列自动合并</h1>
+    <div>
+        <span>resetTable:</span>
+        <button id="resetTable">resetTable</button>
+    </div>
+    <hr>
+    <div>
+        <span>mergeSingleCol:</span>
+        <input id="colIndex" type="text"
+            placeholder="Input the Column Index Here, Split by ',' , Like this: 0,1,2,3,4 ">
+        <button id="mergeSingleCol">mergeSingleCol</button>
+    </div>
+    <hr>
+    <div>
+        <span>mergeMultiCol:</span>
+        <input id="column-end" type="text" placeholder="Input End Column Index ">
+        <input id="column-start" type="text" placeholder="Input Start Column Index, Default : 0 ">
+        <button id="mergeMultiCol">mergeMultiCol</button>
+    </div>
+    <hr>
+    <div>
+        <span>mergeRows:</span>
+        <input id="rows-column-end" type="text" placeholder="Input End Column Index ">
+        <input id="rows-column-start" type="text" placeholder="Input Start Column Index, Default : 0 ">
+        <button id="mergeRows">mergeRows</button>
+    </div>
+    <hr>
+    <div>
+        <table id="table">
+
+        </table>
+    </div>
+
+    <script>
+        var $resetTable = $('#resetTable'),
+            $mergeSingleCol = $('#mergeSingleCol'),
+            $mergeMultiCol = $('#mergeMultiCol'),
+            $mergeRows = $('#mergeRows');
+
+        $resetTable.click(t => {
+            initTable();
+        });
+
+        $mergeSingleCol.click(t => {
+            $resetTable.click();    //reset table
+            // mergeSingleCol('#table', 1);     //example 1
+            // mergeSingleCol('#table', 3);     //example 2
+            const colIndex = $('#colIndex').val().split(',');
+            colIndex.forEach(index => {
+                mergeSingleCol('#table', parseInt(index));
+            });
+        });
+
+        $mergeMultiCol.click(t => {
+            $resetTable.click();    //reset table
+            //mergeMultiCol('#table', 4);    //example 1
+            //mergeMultiCol('#table', 4, 2);    //example 2
+            const startCol = parseInt($('#column-start').val());
+            const endCol = parseInt($('#column-end').val());
+            mergeMultiCol('#table', endCol, startCol);
+        });
+
+        $mergeRows.click(t => {
+            $resetTable.click();    //reset table
+            //mergeRows('#table', 6, 4);   //example 1
+            //mergeRows('#table', 8);     //example 2
+            const startCol = parseInt($('#rows-column-start').val());
+            const endCol = parseInt($('#rows-column-end').val());
+            mergeRows('#table', endCol, startCol);
+        });
+
+        $(function () {
+            initTable();
+        })
+        function initTable() {
+
+            var $table = $('#table'),
+                $thead = $('<thead></thead>'),
+                $tbody = $('<tbody></tbody>');
+
+            $table.empty();
+
+            $thead.append(
+                $('<tr></tr>')
+                    .append($('<th></th>').append('Columns-00'))
+                    .append($('<th></th>').append('Columns-01'))
+                    .append($('<th></th>').append('Columns-02'))
+                    .append($('<th></th>').append('Columns-03'))
+                    .append($('<th></th>').append('Columns-04'))
+                    .append($('<th></th>').append('Columns-05'))
+                    .append($('<th></th>').append('Columns-06'))
+                    .append($('<th></th>').append('Columns-07'))
+                    .append($('<th></th>').append('Columns-08'))
+            );
+
+            $tbody.append(
+                $('<tr></tr>')
+                    .append($('<td></td>').append('BeiJing'))
+                    .append($('<td></td>').append('Java'))
+                    .append($('<td></td>').append('Group-1'))
+                    .append($('<td></td>').append('Jack'))
+                    .append($('<td></td>').append('ITEM-01'))
+                    .append($('<td></td>').append('ITEM-01'))
+                    .append($('<td></td>').append('ITEM-01'))
+                    .append($('<td></td>').append('ITEM-02'))
+                    .append($('<td></td>').append('ITEM-03'))
+            ).append(
+                $('<tr></tr>')
+                    .append($('<td></td>').append('BeiJing'))
+                    .append($('<td></td>').append('Java'))
+                    .append($('<td></td>').append('Group-1'))
+                    .append($('<td></td>').append('Jack'))
+                    .append($('<td></td>').append('ITEM-01'))
+                    .append($('<td></td>').append('ITEM-01'))
+                    .append($('<td></td>').append('ITEM-02'))
+                    .append($('<td></td>').append('ITEM-03'))
+                    .append($('<td></td>').append('ITEM-03'))
+            ).append(
+                $('<tr></tr>')
+                    .append($('<td></td>').append('BeiJing'))
+                    .append($('<td></td>').append('C#'))
+                    .append($('<td></td>').append('Group-1'))
+                    .append($('<td></td>').append('Candy'))
+                    .append($('<td></td>').append('ITEM-01'))
+                    .append($('<td></td>').append('ITEM-01'))
+                    .append($('<td></td>').append('ITEM-02'))
+                    .append($('<td></td>').append('ITEM-01'))
+                    .append($('<td></td>').append('ITEM-03'))
+            ).append(
+                $('<tr></tr>')
+                    .append($('<td></td>').append('BeiJing'))
+                    .append($('<td></td>').append('JavaScript'))
+                    .append($('<td></td>').append('Group-1'))
+                    .append($('<td></td>').append('Brance'))
+                    .append($('<td></td>').append('ITEM-01'))
+                    .append($('<td></td>').append('ITEM-01'))
+                    .append($('<td></td>').append('ITEM-01'))
+                    .append($('<td></td>').append('ITEM-02'))
+                    .append($('<td></td>').append('ITEM-03'))
+            ).append(
+                $('<tr></tr>')
+                    .append($('<td></td>').append('BeiJing'))
+                    .append($('<td></td>').append('JavaScript'))
+                    .append($('<td></td>').append('Group-2'))
+                    .append($('<td></td>').append('Candy'))
+                    .append($('<td></td>').append('ITEM-01'))
+                    .append($('<td></td>').append('ITEM-01'))
+                    .append($('<td></td>').append('ITEM-02'))
+                    .append($('<td></td>').append('ITEM-01'))
+                    .append($('<td></td>').append('ITEM-01'))
+            ).append(
+                $('<tr></tr>')
+                    .append($('<td></td>').append('BeiJing'))
+                    .append($('<td></td>').append('JavaScript'))
+                    .append($('<td></td>').append('Group-2'))
+                    .append($('<td></td>').append('Linda'))
+                    .append($('<td></td>').append('ITEM-01'))
+                    .append($('<td></td>').append('ITEM-03'))
+                    .append($('<td></td>').append('ITEM-01'))
+                    .append($('<td></td>').append('ITEM-01'))
+                    .append($('<td></td>').append('ITEM-01'))
+            ).append(
+                $('<tr></tr>')
+                    .append($('<td></td>').append('ShangHai'))
+                    .append($('<td></td>').append('JavaScript'))
+                    .append($('<td></td>').append('Group-2'))
+                    .append($('<td></td>').append('Linda'))
+                    .append($('<td></td>').append('ITEM-01'))
+                    .append($('<td></td>').append('ITEM-01'))
+                    .append($('<td></td>').append('ITEM-01'))
+                    .append($('<td></td>').append('ITEM-01'))
+                    .append($('<td></td>').append('ITEM-01'))
+            ).append(
+                $('<tr></tr>')
+                    .append($('<td></td>').append('ShangHai'))
+                    .append($('<td></td>').append('JavaScript'))
+                    .append($('<td></td>').append('Group-2'))
+                    .append($('<td></td>').append('Linda'))
+                    .append($('<td></td>').append('ITEM-01'))
+                    .append($('<td></td>').append('ITEM-02'))
+                    .append($('<td></td>').append('ITEM-01'))
+                    .append($('<td></td>').append('ITEM-02'))
+                    .append($('<td></td>').append('ITEM-01'))
+            ).append(
+                $('<tr></tr>')
+                    .append($('<td></td>').append('ShangHai'))
+                    .append($('<td></td>').append('Python'))
+                    .append($('<td></td>').append('Group-2'))
+                    .append($('<td></td>').append('Linda'))
+                    .append($('<td></td>').append('ITEM-01'))
+                    .append($('<td></td>').append('ITEM-01'))
+                    .append($('<td></td>').append('ITEM-01'))
+                    .append($('<td></td>').append('ITEM-01'))
+                    .append($('<td></td>').append('ITEM-01'))
+            ).append(
+                $('<tr></tr>')
+                    .append($('<td></td>').append('ShangHai'))
+                    .append($('<td></td>').append('Python'))
+                    .append($('<td></td>').append('Group-3'))
+                    .append($('<td></td>').append('John'))
+                    .append($('<td></td>').append('ITEM-01'))
+                    .append($('<td></td>').append('ITEM-01'))
+                    .append($('<td></td>').append('ITEM-02'))
+                    .append($('<td></td>').append('ITEM-01'))
+                    .append($('<td></td>').append('ITEM-01'))
+            );
+
+            $table.append($thead);
+            $table.append($tbody);
+        }
+
+
+    </script>
+</body>
