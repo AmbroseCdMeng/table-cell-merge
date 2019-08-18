@@ -1,8 +1,11 @@
+/**
+ * 表格单元格自动合并
+ */
+
 /* ***** 合并某一列内容相同的单元格 *****
  * 表格合并列单元格，colIdx要合并的列序号，从0开始
  * @param tableid 表ID，例如#Table_Center
  * @param colIdx  列位置，从0开始
- * 如mergeSingleCol('#table', 2) 表示自动合并 table 中第 2 列中所有内容相同的相邻单元格
  */
 function mergeSingleCol(tableid, colIdx) {
     var that;
@@ -38,25 +41,21 @@ function mergeSingleCol(tableid, colIdx) {
  * @param colIdxstart 开始列位置 从 0 开始 含自身     2019年8月17日13:30:46 扩展一个参数
  *  0  1  2  3  4  5        colIdx = 4  colIdxstart = 2
  *  0  1  → 2  3  4 ← 5
- *  如mergeMultiCol('#table', 4, 2) 表示合并 table 第2 - 4列内容相同的单元格（单元格内容关联，与 单独合并 2，3，4 列不同）
  */
 function mergeMultiCol(tableid, colIdx, colIdxstart) {
-    //未指定开始列时默认第0列
     colIdxstart = colIdxstart || 0;
     var that;
-    /**/
     var _text = function (cols) {
         return $.map(cols, function (col) {
             return $(col).text();
         }).join("**");
     };
-
     /* 遍历表格下所有行 */
-    $(tableid + " tbody tr").each(function (row) {
+    $(tableid + " tr").each(function (row) {
         /* 获取指定前n列 并篩選"不可見"元素（hidden、disabled 等）*/
         var _colspan = $(this)
-          .find("td" + (colIdxstart <= 0 ? "" : ":gt(" + (colIdxstart - 1) + ")") + ":lt(" + (colIdx - colIdxstart + 1) + ")")
-          .filter(":visible");
+            .find("td" + (colIdxstart <= 0 ? "" : ":gt(" + (colIdxstart - 1) + ")") + ":lt(" + (colIdx - colIdxstart + 1) + ")")
+            .filter(":visible");
         /* 如果存在可见列 */
         if (_colspan.length > 0) {
             /* 如果存在上一行内容 并且 当前行的前 colIdx 列的内容 与上一行的前 colIdx 列的内容 完全相同 */
@@ -92,29 +91,33 @@ function mergeMultiCol(tableid, colIdx, colIdxstart) {
     }
 }
 
+
+
 /* ***** 跨列合并某单元格 *****
  * 跨列合并(如果结束行传0代表合并所有行)
  * @param tableid 表ID，例如#table
- * @param colId  起始列
- * @param length  需合跨行数
- * 如mergeRows('#table', 3, 2) 表示合并第 3 - 4 列同一行内容相同的单元格。
+ * @param colIdx  结束列 从 0 开始 包含自身
+ * @param colIdxstart  开始列 从 0 开始 包含自身 默认 0 
  */
-function mergeRows(tableid, rowIdx, length) {
-    var that;
+
+function mergeRows(tableid, colIdx, colIdxstart) {
+    colIdxstart = colIdxstart || 0;
     $(tableid + ' tr').each(function (row) {
-        $('td:gt(' + colId + '):lt(' + length + ')', this).filter(':visible').each(function (col) {
-            if (that != null && $(this).html() == $(that).html()) {
-                colspan = $(that).attr("colSpan");
-                if (colspan == undefined) {
-                    $(that).attr("colSpan", 1);
+        var that;
+        $("td" + (colIdxstart <= 0 ? "" : ":gt(" + (colIdxstart - 1) + ")") + ":lt(" + (colIdx - colIdxstart + 1) + ")", this)
+            .filter(':visible').each(function (col) {
+                if (that != null && $(this).html() == $(that).html()) {
                     colspan = $(that).attr("colSpan");
+                    if (colspan == undefined) {
+                        $(that).attr("colSpan", 1);
+                        colspan = $(that).attr("colSpan");
+                    }
+                    colspan = Number(colspan) + 1;
+                    $(that).attr("colSpan", colspan);
+                    $(this).hide();
+                } else {
+                    that = this;
                 }
-                colspan = Number(colspan) + 1;
-                $(that).attr("colSpan", colspan);
-                $(this).hide();
-            } else {
-                that = this;
-            }
-        });
+            });
     });
 }
