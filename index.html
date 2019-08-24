@@ -1,6 +1,6 @@
-<link rel="stylesheet" href="./main.css">
+<link rel="stylesheet" href="./css/main.css">
 <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
-<script src="./merge.js"></script>
+<script src="./js/merge.js"></script>
 
 <body>
     <h1>表格行列自动合并</h1>
@@ -11,23 +11,36 @@
     <hr>
     <div>
         <span>mergeSingleCol:</span>
-        <input id="colIndex" type="text"
+        <input id="colIndex" type="text" value="0,1,2,3,4"
             placeholder="Input the Column Index Here, Split by ',' , Like this: 0,1,2,3,4 ">
         <button id="mergeSingleCol">mergeSingleCol</button>
+        <span>Input the Column Index, Split by ',' , Like this: 0,1,2,3,4</span>
     </div>
     <hr>
     <div>
         <span>mergeMultiCol:</span>
-        <input id="column-end" type="text" placeholder="Input End Column Index ">
-        <input id="column-start" type="text" placeholder="Input Start Column Index, Default : 0 ">
+        <input id="column-end" type="text" placeholder="Input End Column Index " value="5">
+        <input id="column-start" type="text" placeholder="Input Start Column Index, Default : 0 " value="0">
         <button id="mergeMultiCol">mergeMultiCol</button>
+        <span>Input End Column Index and Start Column Index(Default value : 0)</span>
     </div>
+
+    <div>
+        <span>mergeMultiCol:</span>
+        <input id="rows-column-arr" type="text"
+            placeholder="Input the Column Index Here, Split by ',' , Like this: 1,3,4  " value="1,3,4">
+        <button id="mergeMultiCol_2">mergeMultiCol_2</button>
+        <span>Input the Column Index, Split by ',' , Like this:3,8</span>
+    </div>
+
+
     <hr>
     <div>
         <span>mergeRows:</span>
-        <input id="rows-column-end" type="text" placeholder="Input End Column Index ">
-        <input id="rows-column-start" type="text" placeholder="Input Start Column Index, Default : 0 ">
+        <input id="rows-column-end" type="text" placeholder="Input End Column Index " value="8">
+        <input id="rows-column-start" type="text" placeholder="Input Start Column Index, Default : 0 " value="4">
         <button id="mergeRows">mergeRows</button>
+        <span>Input End Column Index and Start Column Index(Default value : 0)</span>
     </div>
     <hr>
     <div>
@@ -40,6 +53,7 @@
         var $resetTable = $('#resetTable'),
             $mergeSingleCol = $('#mergeSingleCol'),
             $mergeMultiCol = $('#mergeMultiCol'),
+            $mergeMultiCol_2 = $('#mergeMultiCol_2'),
             $mergeRows = $('#mergeRows');
 
         $resetTable.click(t => {
@@ -50,8 +64,7 @@
             $resetTable.click();    //reset table
             // mergeSingleCol('#table', 1);     //example 1
             // mergeSingleCol('#table', 3);     //example 2
-            const colIndex = $('#colIndex').val().split(',');
-            colIndex.forEach(index => {
+            $('#colIndex').val().split(',').forEach(index => {
                 mergeSingleCol('#table', parseInt(index));
             });
             $('input').val('');
@@ -64,8 +77,13 @@
             const startCol = parseInt($('#column-start').val());
             const endCol = parseInt($('#column-end').val());
             mergeMultiCol('#table', endCol, startCol);
-            $('input').val('');
         });
+
+        $mergeMultiCol_2.click(t => {
+            $resetTable.click();    //reset table
+            const colArr = $("#rows-column-arr").val().split(',');
+            mergeMultiCol_2('#table', colArr);
+        })
 
         $mergeRows.click(t => {
             $resetTable.click();    //reset table
@@ -74,7 +92,6 @@
             const startCol = parseInt($('#rows-column-start').val());
             const endCol = parseInt($('#rows-column-end').val());
             mergeRows('#table', endCol, startCol);
-            $('input').val('');
         });
 
         $(function () {
