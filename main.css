@@ -40,7 +40,7 @@ input {
     margin-right: 20px;
 }
 
-#colIndex {
+#colIndex, #rows-column-arr {
     width: 500px;
 }
 
