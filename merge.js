@@ -148,7 +148,7 @@ function mergeMultiCol_2(tableid, colArr) {
     /* 自调用 */
     if (colArr.length > 0) {
         colArr.pop();
-        mergeMultiCol(tableid, colArr);
+        mergeMultiCol_2(tableid, colArr);
     }
 }
 
