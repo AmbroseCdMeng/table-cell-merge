@@ -145,6 +145,11 @@ function mergeMultiCol_2(tableid, colArr) {
             }
         }
     });
+    /* 自调用 */
+    if (colArr.length > 0) {
+        colArr.pop();
+        mergeMultiCol(tableid, colArr);
+    }
 }
 
 /* ***** 跨列合并某单元格 *****
