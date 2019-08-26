@@ -28,9 +28,9 @@
     <div>
         <span>mergeMultiCol:</span>
         <input id="rows-column-arr" type="text"
-            placeholder="Input the Column Index Here, Split by ',' , Like this: 1,3,4  " value="1,3,4">
+            placeholder="Input the Column Index Here, Split by ',' , Like this: 1,3,4,5  " value="1,3,4,5">
         <button id="mergeMultiCol_2">mergeMultiCol_2</button>
-        <span>Input the Column Index, Split by ',' , Like this:3,8</span>
+        <span>Input the Column Index, Split by ',' , Like this:1,3,4,5</span>
     </div>
 
 
@@ -82,6 +82,7 @@
         $mergeMultiCol_2.click(t => {
             $resetTable.click();    //reset table
             const colArr = $("#rows-column-arr").val().split(',');
+            //mergeMultiCol_2('#table', [1,3,4,5]);   //example 1
             mergeMultiCol_2('#table', colArr);
         })
 
